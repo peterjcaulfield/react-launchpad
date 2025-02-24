@@ -10,6 +10,13 @@ A React library to help you create a slack-like command pane customised to your 
 
 ![Demo of React Launchpad](./demo.gif)
 
+## Features
+
+- Slack-like UX
+- List virtualisation for better performance
+- Fuzzy matching
+- Theming
+
 ## Installation
 
 ```sh
@@ -20,7 +27,7 @@ npm install react-launchpad
 
 Add stylesheet and component to your app:
 
-```ts
+```tsx
 import "react-launchpad/dist/styles.css";
 
 import { HomeIcon } from "@heroicons/react/24/solid";
@@ -32,7 +39,7 @@ const router = useRouter();
 const commands = useMemo(() => {
   return [
     {
-      icon: HomeIcon,
+      icon: <HomeIcon/>,
       text: 'Home',
       onSelect: (context: LaunchpadContext) => {
         router.push('/')
