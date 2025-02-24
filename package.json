@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "react-launchpad",
+  "scripts": {
+    "dev": "pnpm --parallel run dev -r",
+    "build": "pnpm --parallel run build -r",
+    "lint": "pnpm --parallel run lint -r",
+    "format": "pnpm --parallel run format -r",
+    "test": "pnpm --parallel run test -r"
+  },
+  "devDependencies": {
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "pnpm": "^8.10.3"
+  }
+}

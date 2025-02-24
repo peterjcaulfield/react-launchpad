@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-border: rgba(53, 55, 59, 1);
+  --color-bg: rgba(27, 29, 33, 1);
+  --color-command-text: rgba(202, 203, 204, 1);
+  --color-command-active-text: rgba(255, 255, 255, 1);
+  --color-command-active-bg: rgba(46, 98, 158, 1);
+  --color-footer-text: rgba(169, 169, 171, 1);
+  --color-footer-bg: rgba(34, 37, 41, 1);
+  --color-input-text: rgba(197, 197, 199);
+  --color-input-placeholder-text: rgba(118, 120, 122, 1);
+  --color-error-text: rgb(220 38 38);
+  --color-loading: rgba(197, 197, 199);
+}
