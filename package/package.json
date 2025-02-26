@@ -1,6 +1,6 @@
 {
   "name": "react-launchpad",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A react library for building a slack-like command pane in your application",
   "main": "dist/index.js",
   "module": "dist/index.module.js",

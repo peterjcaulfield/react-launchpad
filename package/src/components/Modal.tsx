@@ -8,9 +8,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 
 
 // TODO: theme
-export const Modal: FC<PropsWithChildren> = ({
-  children,
-}) => {
+export const Modal: FC<PropsWithChildren> = ({ children }) => {
   const { open, setOpen, theme } = useLaunchPadContext();
 
   const onClose = useCallback(() => {
@@ -18,17 +16,17 @@ export const Modal: FC<PropsWithChildren> = ({
   }, []);
 
   return (
-    <Dialog open={open} onClose={onClose} className="relative z-50">
+    <Dialog open={open} onClose={onClose} className="rlp-relative rlp-z-50">
       <DialogBackdrop
         transition
-        className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        className="rlp-fixed rlp-inset-0 rlp-bg-gray-500 rlp-bg-opacity-75 rlp-transition-opacity data-[closed]:rlp-opacity-0 data-[enter]:rlp-duration-300 data-[leave]:rlp-duration-200 data-[enter]:rlp-ease-out data-[leave]:rlp-ease-in"
       />
 
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center text-center sm:items-center">
+      <div className="rlp-fixed rlp-inset-0 rlp-z-10 rlp-w-screen rlp-overflow-y-auto">
+        <div className="rlp-flex rlp-min-h-full rlp-items-end rlp-justify-center rlp-text-center sm:rlp-items-center">
           <DialogPanel
             transition
-            className={`relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 ${theme.modal.root}`}
+            className={`rlp-relative rlp-transform rlp-overflow-hidden rlp-rounded-lg rlp-text-left rlp-shadow-xl rlp-transition-all data-[closed]:rlp-translate-y-4 data-[closed]:rlp-opacity-0 data-[enter]:rlp-duration-300 data-[leave]:rlp-duration-200 data-[enter]:rlp-ease-out data-[leave]:rlp-ease-in sm:rlp-my-8 sm:rlp-w-full sm:rlp-max-w-lg data-[closed]:sm:rlp-translate-y-0 data-[closed]:sm:rlp-scale-95 ${theme.modal.root}`}
           >
             <div>{children}</div>
           </DialogPanel>
@@ -37,6 +35,7 @@ export const Modal: FC<PropsWithChildren> = ({
     </Dialog>
   );
 };
+
 
 
 export const AnimatedModal: FC<PropsWithChildren> = ({ children }) => {
@@ -138,7 +137,7 @@ export const AnimatedModal: FC<PropsWithChildren> = ({ children }) => {
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
               {/* Height animation wrapper */}
-              <div ref={outerRef} className="overflow-hidden">
+              <div ref={outerRef} className="rlp-overflow-hidden rlp-bg">
                 <div ref={innerRef}>{children}</div>
               </div>
             </motion.div>

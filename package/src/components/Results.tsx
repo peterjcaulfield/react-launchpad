@@ -55,7 +55,7 @@ const Command: FC<
 const SearchCommandBorder = () => {
   return <motion.div
     key="search-border"
-    className="h-3 border border-t-0 border-l-0 border-r-0 border-b-0.5 border-[rgba(53,55,59,1)]"
+    className="rlp-h-3 rlp-border rlp-border-t-0 rlp-border-l-0 rlp-border-r-0 rlp-border-b-0.5 rlp-border-[rgba(53,55,59,1)]"
     initial={{ scaleY: 0 }}
     animate={{ scaleY: 1 }}
     transition={{ duration: 0.1, ease: "easeOut" }}
@@ -74,7 +74,7 @@ const SearchCommand = ({ active, index }: CommandProps) => {
         index={index}
         active={active}
         className={
-          classNames("min-h-[20px]", { "mt-3": !error })
+          classNames("rlp-min-h-[20px]", { "rlp-mt-3": !error })
         }
       >
         <CommandContentWrapper>

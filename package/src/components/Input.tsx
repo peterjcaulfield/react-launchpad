@@ -9,7 +9,7 @@ export const SearchInput = () => {
     useLaunchPadContext();
   return (
     <div className={theme.search.root}>
-      <div className="mt-[4px]">
+      <div className="rlp-mt-[4px]">
         <Icon>
           <MagnifyingGlassIcon />
         </Icon>
