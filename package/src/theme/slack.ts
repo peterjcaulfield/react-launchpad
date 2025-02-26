@@ -6,7 +6,7 @@ export const theme: Theme = {
     root: "rlp-bg-[var(--rlp-color-bg)] rlp-min-w-[40rem] rlp-border rlp-border-[var(--rlp-color-border)]",
   },
   results: {
-    root: "rlp-relative rlp-max-h-[324px] rlp-overflow-auto rlp-flex rlp-flex-col rlp-mt-[1px]",
+    root: "rlp-relative rlp-max-h-[324px] rlp-overflow-auto rlp-flex rlp-flex-col",
   },
   loading: {
     root: "rlp-text-[var(--rlp-color-loading)] rlp-absolute rlp-top-1/2 rlp-left-1/2 rlp--translate-x-1/2 rlp--translate-y-1/2 rlp-z-20",
