@@ -47,7 +47,7 @@ export interface SearchCommand extends BaseCommand {
   type: CommandType.Search;
 }
 
-interface DefaultCommand extends BaseCommand {
+export interface DefaultCommand extends BaseCommand {
   onSelect: onSelectCallback;
 }
 
