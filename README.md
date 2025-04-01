@@ -55,8 +55,9 @@ const commands = useMemo(() => {
     <body>
       <Launchpad
           commands={commands}
-      />
-      <main>{children}</main>
+      >
+        <main>{children}</main>
+      </LaunchPad>
     </body>
   );
 ```

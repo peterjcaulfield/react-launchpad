@@ -1,6 +1,7 @@
 import {
   ReactNode,
 } from "react";
+import { Command } from "../../types";
 
 export type LaunchpadState = {
   open: boolean;
@@ -9,6 +10,8 @@ export type LaunchpadState = {
   search: string;
   focusedCommand: number;
   content: ReactNode;
+  commands: Command[];
+  initialCommands: Command[];
 };
 
 export const initialState: LaunchpadState = {
@@ -18,6 +21,8 @@ export const initialState: LaunchpadState = {
   search: "",
   focusedCommand: 0,
   content: null,
+  commands: [],
+  initialCommands: []
 };
 
 type Action =
@@ -28,7 +33,8 @@ type Action =
   | { type: "SET_FOCUSED_COMMAND"; payload: number }
   | { type: "SET_CONTENT"; payload: ReactNode }
   | { type: "TOGGLE_OPEN" }
-  | { type: "RESET_STATE" };
+  | { type: "RESET_STATE" }
+  | { type: "ADD_COMMANDS", payload: Command[] };
 
 export const reducer = (state: LaunchpadState, action: Action): LaunchpadState => {
   switch (action.type) {
@@ -48,6 +54,14 @@ export const reducer = (state: LaunchpadState, action: Action): LaunchpadState =
       return { ...state, content: action.payload };
     case "RESET_STATE":
       return { ...state, search: "", error: "", loading: false, focusedCommand: 0 };
+    case "ADD_COMMANDS":
+      return {
+        ...state,
+        commands: [
+          ...state.commands,
+          ...action.payload
+        ],
+      }
     default:
       return state;
   }

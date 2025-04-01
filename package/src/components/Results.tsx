@@ -112,21 +112,21 @@ const Loading = () => {
 
 const List = () => {
   const context = useLaunchPadContext();
-  const { results, focusedCommand, onRenderCommand, resultsRef, error } = context;
+  const { results, focusedCommand, onRenderCommand, resultsRef, error, search } = context;
 
 
   // Use the length of results rather than a hardcoded value.
   const rowVirtualizer = useVirtualizer({
     count: results.length,
     getScrollElement: () => resultsRef,
-    estimateSize: (index) => index === 0 && isSearchCommand(results[index]) ? error ? 48 : 60 : 36,
+    estimateSize: (index) => index === 0 && isSearchCommand(results[0]) ? error ? 48 : 60 : 36,
     overscan: 3
   });
 
   useEffect(() => {
     // we need to remeasure when error is set as search item height changes
     rowVirtualizer.measure();
-  }, [error, rowVirtualizer]);
+  }, [error, rowVirtualizer, results]);
 
   useEffect(() => {
     rowVirtualizer.scrollToIndex(focusedCommand, { align: "auto" });

@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { reducer, LaunchpadState } from '.';
 
+const defaultCmd = { text: 'Default Command', onSelect: () => { } };
+
 describe('LaunchPad reducer', () => {
   const initialState: LaunchpadState = {
     open: false,
@@ -9,6 +11,8 @@ describe('LaunchPad reducer', () => {
     search: "",
     focusedCommand: 0,
     content: null,
+    commands: [defaultCmd],
+    initialCommands: []
   };
 
   it('should handle SET_OPEN', () => {
@@ -41,6 +45,12 @@ describe('LaunchPad reducer', () => {
     expect(newState.content).toBe("Test Content");
   });
 
+  it('should handle ADD_COMMANDS', () => {
+    const cmd = { text: 'My Command', onSelect: () => { } };
+    const newState = reducer(initialState, { type: "ADD_COMMANDS", payload: [cmd] });
+    expect(newState.commands).toEqual([defaultCmd, cmd]);
+  });
+
   it('should handle RESET_STATE while preserving non-reset fields', () => {
     const modifiedState: LaunchpadState = {
       open: true, // open remains unchanged
@@ -49,6 +59,8 @@ describe('LaunchPad reducer', () => {
       search: "hello",
       focusedCommand: 3,
       content: "Preserved Content", // content remains unchanged
+      commands: [],
+      initialCommands: []
     };
     const newState = reducer(modifiedState, { type: "RESET_STATE" });
     expect(newState.search).toBe("");

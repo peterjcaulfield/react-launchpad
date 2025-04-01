@@ -18,6 +18,7 @@ import {
   LaunchPadProps,
   LaunchPadInnerContext,
   LaunchPadContext as PublicLaunchPadContext,
+  Command,
 } from "../types";
 import { useResults } from "./hooks";
 
@@ -63,6 +64,8 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
 }) => {
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
+    commands,
+    initialCommands,
     open: controlledOpen !== undefined ? controlledOpen : initiallyOpen,
     loading: controlledLoading !== undefined ? controlledLoading : false,
     error: controlledError !== undefined ? controlledError : "",
@@ -99,8 +102,8 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
   }, [controlledSearch]);
 
   const results = useResults({
-    commands,
-    initialCommands,
+    commands: state.commands,
+    initialCommands: state.initialCommands,
     search: state.search,
     onChange,
     onSearchSelect,
@@ -160,6 +163,7 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
       setSearch: (search: string) => dispatch({ type: "SET_SEARCH", payload: search }),
       setFocusedCommand: (index: number) => dispatch({ type: "SET_FOCUSED_COMMAND", payload: index }),
       setContent: (content: ReactNode) => dispatch({ type: "SET_CONTENT", payload: content }),
+      addCommands: (commands: Command[]) => dispatch({ type: "ADD_COMMANDS", payload: commands }),
       onSearchChange,
       setSearchInputRef,
       setResultsRef,

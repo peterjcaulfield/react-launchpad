@@ -30,25 +30,6 @@ export interface Theme {
   };
 }
 
-export type onSelectCallback = (context: LaunchPadContext) => void | Promise<void>;
-
-export interface LaunchPadProps {
-  initiallyOpen?: boolean;
-  open?: boolean;
-  initialCommands?: Command[];
-  commands: Command[];
-  searchPlaceholderText?: string;
-  onSearchSelect?: onSelectCallback;
-  search?: string;
-  onChange?: (val: string) => void;
-  loading?: boolean;
-  error?: string;
-  onRenderCommand?: (command: Command) => JSX.Element | null;
-  theme?: Theme;
-  triggerKey?: string;
-  footerContent?: string;
-  animate?: boolean;
-}
 
 interface BaseCommand {
   icon?: JSX.Element;
@@ -72,6 +53,26 @@ interface DefaultCommand extends BaseCommand {
 
 export type Command = DefaultCommand | SearchCommand;
 
+export type onSelectCallback = (context: LaunchPadContext) => void | Promise<void>;
+
+export interface LaunchPadProps {
+  initiallyOpen?: boolean;
+  open?: boolean;
+  initialCommands?: Command[];
+  commands: Command[];
+  searchPlaceholderText?: string;
+  onSearchSelect?: onSelectCallback;
+  search?: string;
+  onChange?: (val: string) => void;
+  loading?: boolean;
+  error?: string;
+  onRenderCommand?: (command: Command) => JSX.Element | null;
+  theme?: Theme;
+  triggerKey?: string;
+  footerContent?: string;
+  animate?: boolean;
+}
+
 export interface LaunchPadInnerContext {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -89,6 +90,7 @@ export interface LaunchPadInnerContext {
   searchPlaceholderText: string;
   onSearchSelect?: (context: LaunchPadContext) => void | Promise<void>;
   setResultsRef: Dispatch<SetStateAction<HTMLDivElement | null>>;
+  addCommands: (command: Command[]) => void;
   error?: string;
   setError: Dispatch<SetStateAction<string>>;
   theme: Theme;
