@@ -1,6 +1,6 @@
 {
   "name": "react-launchpad",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "A react library for building a slack-like command pane in your application",
   "main": "dist/index.js",
   "module": "dist/index.module.js",
@@ -59,7 +59,7 @@
     "dev:server": "cd examples/server && npm run dev",
     "dev:custom-render": "cd examples/custom-render && npm run dev",
     "dev:dash": "cd examples/dashboard && npm run dev",
-    "build": "microbundle --format cjs,es --jsx React.createElement && npm run build:css",
+    "build": "microbundle --format cjs,es --jsx React.createElement --sourcemap && npm run build:css",
     "build:css": "npm run build:css:complete && npm run build:css:core",
     "build:css:complete": "postcss src/tailwind.css -o dist/styles.css --env production",
     "build:css:core": "postcss src/tailwind-core.css -o dist/core.css --env production",
