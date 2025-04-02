@@ -152,19 +152,24 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
     return () => document.removeEventListener("keydown", toggleLaunchPad);
   }, [triggerKey]);
 
+  const actions = useMemo(() => ({
+    setOpen: (open: boolean) => dispatch({ type: "SET_OPEN", payload: open }),
+    setLoading: (loading: boolean) => dispatch({ type: "SET_LOADING", payload: loading }),
+    setError: (error: string) => dispatch({ type: "SET_ERROR", payload: error }),
+    setSearch: (search: string) => dispatch({ type: "SET_SEARCH", payload: search }),
+    setFocusedCommand: (index: number) => dispatch({ type: "SET_FOCUSED_COMMAND", payload: index }),
+    setContent: (content: ReactNode) => dispatch({ type: "SET_CONTENT", payload: content }),
+    addCommands: (commands: Command[]) => dispatch({ type: "ADD_COMMANDS", payload: commands }),
+    setCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_COMMANDS', payload }),
+    addInitialCommands: (commands: Command[]) => dispatch({ type: "ADD_INITIAL_COMMANDS", payload: commands }),
+    setInitialCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_INITIAL_COMMANDS', payload }),
+  }), [])
+
+
   const contextValue: LaunchPadInnerContext = useMemo(
     () => ({
       ...state,
-      setOpen: (open: boolean) => dispatch({ type: "SET_OPEN", payload: open }),
-      setLoading: (loading: boolean) => dispatch({ type: "SET_LOADING", payload: loading }),
-      setError: (error: string) => dispatch({ type: "SET_ERROR", payload: error }),
-      setSearch: (search: string) => dispatch({ type: "SET_SEARCH", payload: search }),
-      setFocusedCommand: (index: number) => dispatch({ type: "SET_FOCUSED_COMMAND", payload: index }),
-      setContent: (content: ReactNode) => dispatch({ type: "SET_CONTENT", payload: content }),
-      addCommands: (commands: Command[]) => dispatch({ type: "ADD_COMMANDS", payload: commands }),
-      setCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_COMMANDS', payload }),
-      addInitialCommands: (commands: Command[]) => dispatch({ type: "ADD_INITIAL_COMMANDS", payload: commands }),
-      setInitialCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_INITIAL_COMMANDS', payload }),
+      ...actions,
       onSearchChange,
       setSearchInputRef,
       setResultsRef,
