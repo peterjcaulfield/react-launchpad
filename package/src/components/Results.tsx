@@ -112,8 +112,7 @@ const Loading = () => {
 
 const List = () => {
   const context = useLaunchPadContext();
-  const { results, focusedCommand, onRenderCommand, resultsRef, error, search } = context;
-
+  const { results, focusedCommand, onRenderCommand, resultsRef, error } = context;
 
   // Use the length of results rather than a hardcoded value.
   const rowVirtualizer = useVirtualizer({

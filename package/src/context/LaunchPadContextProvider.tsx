@@ -71,7 +71,6 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
     error: controlledError !== undefined ? controlledError : "",
     search: controlledSearch !== undefined ? controlledSearch : "",
   });
-
   // Use state for DOM elements so we have setter functions for context
   const [searchInputRef, setSearchInputRef] = useState<HTMLInputElement | null>(null);
   const [resultsRef, setResultsRef] = useState<HTMLDivElement | null>(null);

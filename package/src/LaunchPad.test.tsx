@@ -19,7 +19,7 @@ const interactions = {
 }
 
 
-const MOCK_commands: Command[] = [
+const MOCK_COMMANDS: Command[] = [
   {
     text: 'command 1',
     onSelect: vi.fn()
@@ -36,7 +36,7 @@ const MOCK_commands: Command[] = [
 
 const renderComponent = (props: Partial<LaunchPadProps> = {}) =>
   render(
-    <LaunchPad animate={false} commands={MOCK_commands} {...props} />
+    <LaunchPad animate={false} commands={MOCK_COMMANDS} {...props} />
   )
 
 // @ts-expect-error
@@ -218,13 +218,13 @@ describe('LaunchPad', () => {
 
   it('onChange', async () => {
     const TestWrapper = () => {
-      const [commands, setcommands] = useState(MOCK_commands);
+      const [commands, setcommands] = useState(MOCK_COMMANDS);
       const onChange = (val: string) => {
         if (!val) {
-          setcommands(MOCK_commands);
+          setcommands(MOCK_COMMANDS);
         };
 
-        setcommands(MOCK_commands.filter(command => command.text.indexOf(val) !== -1))
+        setcommands(MOCK_COMMANDS.filter(command => command.text.indexOf(val) !== -1))
       }
       return <LaunchPad commands={commands} onChange={onChange} />
     }
