@@ -34,7 +34,10 @@ type Action =
   | { type: "SET_CONTENT"; payload: ReactNode }
   | { type: "TOGGLE_OPEN" }
   | { type: "RESET_STATE" }
-  | { type: "ADD_COMMANDS", payload: Command[] };
+  | { type: "ADD_COMMANDS", payload: Command[] }
+  | { type: "ADD_INITIAL_COMMANDS", payload: Command[] }
+  | { type: "SET_INITIAL_COMMANDS", payload: Command[] | ((current: Command[]) => Command[]) }
+  | { type: "SET_COMMANDS", payload: Command[] | ((current: Command[]) => Command[]) };
 
 export const reducer = (state: LaunchpadState, action: Action): LaunchpadState => {
   switch (action.type) {
@@ -61,6 +64,24 @@ export const reducer = (state: LaunchpadState, action: Action): LaunchpadState =
           ...state.commands,
           ...action.payload
         ],
+      }
+    case "ADD_INITIAL_COMMANDS":
+      return {
+        ...state,
+        initialCommands: [
+          ...state.initialCommands,
+          ...action.payload
+        ],
+      }
+    case "SET_INITIAL_COMMANDS":
+      return {
+        ...state,
+        initialCommands: typeof action.payload === 'function' ? action.payload(state.initialCommands) : action.payload
+      }
+    case "SET_COMMANDS":
+      return {
+        ...state,
+        commands: typeof action.payload === 'function' ? action.payload(state.commands) : action.payload
       }
     default:
       return state;

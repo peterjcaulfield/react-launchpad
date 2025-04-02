@@ -153,7 +153,6 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
     return () => document.removeEventListener("keydown", toggleLaunchPad);
   }, [triggerKey]);
 
-
   const contextValue: LaunchPadInnerContext = useMemo(
     () => ({
       ...state,
@@ -164,6 +163,9 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
       setFocusedCommand: (index: number) => dispatch({ type: "SET_FOCUSED_COMMAND", payload: index }),
       setContent: (content: ReactNode) => dispatch({ type: "SET_CONTENT", payload: content }),
       addCommands: (commands: Command[]) => dispatch({ type: "ADD_COMMANDS", payload: commands }),
+      setCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_COMMANDS', payload }),
+      addInitialCommands: (commands: Command[]) => dispatch({ type: "ADD_INITIAL_COMMANDS", payload: commands }),
+      setInitialCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_INITIAL_COMMANDS', payload }),
       onSearchChange,
       setSearchInputRef,
       setResultsRef,

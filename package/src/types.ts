@@ -59,7 +59,7 @@ export interface LaunchPadProps {
   initiallyOpen?: boolean;
   open?: boolean;
   initialCommands?: Command[];
-  commands: Command[];
+  commands?: Command[];
   searchPlaceholderText?: string;
   onSearchSelect?: onSelectCallback;
   search?: string;
@@ -91,6 +91,9 @@ export interface LaunchPadInnerContext {
   onSearchSelect?: (context: LaunchPadContext) => void | Promise<void>;
   setResultsRef: Dispatch<SetStateAction<HTMLDivElement | null>>;
   addCommands: (command: Command[]) => void;
+  addInitialCommands: (command: Command[]) => void;
+  setCommands: (payload: ((command: Command[]) => Command[]) | Command[]) => void;
+  setInitialCommands: (payload: ((command: Command[]) => Command[]) | Command[]) => void;
   error?: string;
   setError: Dispatch<SetStateAction<string>>;
   theme: Theme;

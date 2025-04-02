@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { reducer, LaunchpadState } from '.';
 
 const defaultCmd = { text: 'Default Command', onSelect: () => { } };
+const initialCmd = { text: 'Initial Command', onSelect: () => { } };
 
 describe('LaunchPad reducer', () => {
   const initialState: LaunchpadState = {
@@ -12,7 +13,7 @@ describe('LaunchPad reducer', () => {
     focusedCommand: 0,
     content: null,
     commands: [defaultCmd],
-    initialCommands: []
+    initialCommands: [initialCmd]
   };
 
   it('should handle SET_OPEN', () => {
@@ -49,6 +50,25 @@ describe('LaunchPad reducer', () => {
     const cmd = { text: 'My Command', onSelect: () => { } };
     const newState = reducer(initialState, { type: "ADD_COMMANDS", payload: [cmd] });
     expect(newState.commands).toEqual([defaultCmd, cmd]);
+  });
+
+
+  it('should handle SET_COMMANDS', () => {
+    const cmd = { text: 'My Command', onSelect: () => { } };
+    const newState = reducer(initialState, { type: "SET_COMMANDS", payload: [cmd] });
+    expect(newState.commands).toEqual([cmd]);
+  });
+
+  it('should handle ADD_INITIAL_COMMANDS', () => {
+    const cmd = { text: 'My Command', onSelect: () => { } };
+    const newState = reducer(initialState, { type: "ADD_INITIAL_COMMANDS", payload: [cmd] });
+    expect(newState.initialCommands).toEqual([initialCmd, cmd]);
+  });
+
+  it('should handle SET_INITIAL_COMMANDS', () => {
+    const cmd = { text: 'My Command', onSelect: () => { } };
+    const newState = reducer(initialState, { type: "SET_INITIAL_COMMANDS", payload: [cmd] });
+    expect(newState.initialCommands).toEqual([cmd]);
   });
 
   it('should handle RESET_STATE while preserving non-reset fields', () => {
