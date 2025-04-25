@@ -53,7 +53,12 @@ export interface DefaultCommand extends BaseCommand {
 
 export type Command = DefaultCommand | SearchCommand;
 
-export type onSelectCallback = (context: LaunchPadContext) => void | Promise<void>;
+interface OnSelectCallbackContext extends LaunchPadContext {
+  event: React.MouseEvent<HTMLButtonElement> | KeyboardEvent;
+
+}
+
+export type onSelectCallback = (context: OnSelectCallbackContext) => void | Promise<void>;
 
 export interface LaunchPadProps {
   initiallyOpen?: boolean;

@@ -150,7 +150,7 @@ const List = () => {
               index={virtualRow.index}
               key={result.text}
               active={isActive}
-              onClick={() => result.onSelect(getPublicContext(context))}
+              onClick={(e) => result.onSelect({ ...getPublicContext(context), event: e })}
             >
               {onRenderCommand?.(result) || <CommandContent {...result} />}
             </Command>
@@ -197,7 +197,7 @@ export const Results = () => {
           if (isSearchCommand(currentlyFocusedResult)) {
             onSearchSelect?.(getPublicContext(context));
           } else {
-            currentlyFocusedResult.onSelect(getPublicContext(context));
+            currentlyFocusedResult.onSelect({ ...getPublicContext(context), event: e });
           }
         } else if (key === "ArrowUp" && results.length > 1) {
           e.preventDefault();
