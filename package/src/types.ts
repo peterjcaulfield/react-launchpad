@@ -72,6 +72,7 @@ export interface LaunchPadProps {
   loading?: boolean;
   error?: string;
   onRenderCommand?: (command: Command) => JSX.Element | null;
+  onRenderCommandContent?: (defaultContent: React.ReactNode, commands: Command[], index: number) => React.ReactNode | null;
   theme?: Theme;
   triggerKey?: string;
   footerContent?: string;
@@ -88,6 +89,7 @@ export interface LaunchPadInnerContext {
   results: Command[];
   resultsRef: HTMLDivElement | null;
   onRenderCommand: LaunchPadProps['onRenderCommand']
+  onRenderCommandContent: LaunchPadProps['onRenderCommandContent']
   search: string;
   setSearch: Dispatch<SetStateAction<string>>;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

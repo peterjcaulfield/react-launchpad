@@ -14,7 +14,6 @@ export const useResults = ({
   search,
 }: Pick<LaunchPadProps, "commands" | "initialCommands" | "onChange" | "onSearchSelect"> & { search: string }) => {
 
-
   const [innerCommands, setInnerCommands] = useState<Command[]>([]);
   const filteredCommands = useFuzzySearchList({
     list: onChange ? [] : commands,
@@ -28,7 +27,6 @@ export const useResults = ({
 
   useEffect(() => {
     if (!search && initialCommands.length) {
-      console.log('setting inner commands')
       setInnerCommands(initialCommands);
       return;
     }

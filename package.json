@@ -3,6 +3,7 @@
   "name": "react-launchpad",
   "scripts": {
     "dev": "pnpm --parallel run dev -r",
+    "dev:dash": "cd examples/dashboard && npm run dev",
     "build": "pnpm --parallel run build -r",
     "lint": "pnpm --parallel run lint -r",
     "format": "pnpm --parallel run format -r",

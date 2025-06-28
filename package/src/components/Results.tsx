@@ -28,7 +28,7 @@ const Command: FC<
   PropsWithChildren & ButtonHTMLAttributes<HTMLButtonElement> & CommandProps
 > = ({ active, children, index, ...props }) => {
   const commandRef = useRef<HTMLButtonElement>(null);
-  const { theme, focusedCommand, setFocusedCommand } = useLaunchPadContext();
+  const { theme, focusedCommand, setFocusedCommand, onRenderCommandContent, results } = useLaunchPadContext();
 
   // TODO: debounce
   const onMouseMove = useCallback(() => {
@@ -47,7 +47,7 @@ const Command: FC<
         [theme.command.active ?? ""]: active,
       }, props.className)}
     >
-      {children}
+      {onRenderCommandContent ? onRenderCommandContent(children, results, index) : children}
     </button>
   );
 };

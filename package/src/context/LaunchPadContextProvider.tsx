@@ -53,6 +53,7 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
   search: controlledSearch,
   onChange,
   onRenderCommand,
+  onRenderCommandContent,
   onSearchSelect,
   searchPlaceholderText = "Search",
   error: controlledError,
@@ -180,6 +181,7 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
       searchPlaceholderText,
       onSearchSelect,
       onRenderCommand,
+      onRenderCommandContent,
       footerContent,
       animate,
     }),
@@ -195,6 +197,7 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
       searchPlaceholderText,
       onSearchSelect,
       onRenderCommand,
+      onRenderCommandContent,
       footerContent,
       animate,
     ]
