@@ -1,5 +1,3 @@
-"use client";
-
 import { useRef, useEffect, FC, PropsWithChildren, useState, useCallback } from "react";
 import { useLaunchPadContext } from "../context";
 import { AnimatePresence, motion } from "framer-motion";

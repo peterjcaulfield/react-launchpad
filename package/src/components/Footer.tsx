@@ -1,5 +1,3 @@
-"use client";
-
 import { useLaunchPadContext } from "../context";
 
 export const Footer = () => {

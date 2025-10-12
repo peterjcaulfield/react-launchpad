@@ -69,10 +69,12 @@ export interface LaunchPadProps {
   onSearchSelect?: onSelectCallback;
   search?: string;
   onChange?: (val: string) => void;
+  onOpenChange?: (val: boolean) => void;
   loading?: boolean;
   error?: string;
   onRenderCommand?: (command: Command) => JSX.Element | null;
   onRenderCommandContent?: (defaultContent: React.ReactNode, commands: Command[], index: number) => React.ReactNode | null;
+  content?: React.ReactNode | null;
   theme?: Theme;
   triggerKey?: string;
   footerContent?: string;
@@ -83,7 +85,6 @@ export interface LaunchPadInnerContext {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
   focusedCommand: number;
   setFocusedCommand: Dispatch<SetStateAction<number>>;
   results: Command[];
@@ -97,21 +98,15 @@ export interface LaunchPadInnerContext {
   searchPlaceholderText: string;
   onSearchSelect?: (context: LaunchPadContext) => void | Promise<void>;
   setResultsRef: Dispatch<SetStateAction<HTMLDivElement | null>>;
-  addCommands: (command: Command[]) => void;
-  addInitialCommands: (command: Command[]) => void;
-  setCommands: (payload: ((command: Command[]) => Command[]) | Command[]) => void;
-  setInitialCommands: (payload: ((command: Command[]) => Command[]) | Command[]) => void;
   error?: string;
-  setError: Dispatch<SetStateAction<string>>;
   theme: Theme;
   triggerKey?: string;
   footerContent?: string;
   content: React.ReactNode;
-  setContent: Dispatch<SetStateAction<React.ReactNode>>;
   animate: boolean;
 }
 
 export type LaunchPadContext = Pick<
   LaunchPadInnerContext,
-  "setOpen" | "setLoading" | "setError" | "search" | "focusedCommand" | "results" | "setContent"
+  "setOpen" | "search" | "focusedCommand" | "results"
 >;
