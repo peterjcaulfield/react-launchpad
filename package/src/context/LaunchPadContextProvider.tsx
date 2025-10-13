@@ -1,5 +1,3 @@
-"use client";
-
 import {
   FC,
   PropsWithChildren,
@@ -7,10 +5,8 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useReducer,
   useCallback,
   useState,
-  ReactNode,
 } from "react";
 
 import { theme as defaultTheme } from "../theme/slack";
@@ -18,164 +14,156 @@ import {
   LaunchPadProps,
   LaunchPadInnerContext,
   LaunchPadContext as PublicLaunchPadContext,
-  Command,
 } from "../types";
-import { useResults } from "./hooks";
-
-import { reducer, initialState } from './state';
+import { useResults, useControllable } from "./hooks";
 
 const LaunchPadContext = createContext<LaunchPadInnerContext | null>(null);
 
+const defaultCommands = [];
+const defaultInitialCommands = [];
+
 export const getPublicContext = ({
   setOpen,
-  setError,
-  setLoading,
   search,
   focusedCommand,
   results,
-  setContent,
 }: LaunchPadInnerContext): PublicLaunchPadContext => ({
   setOpen,
-  setError,
-  setLoading,
   search,
   focusedCommand,
   results,
-  setContent,
 });
 
 export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = ({
   theme = defaultTheme,
   initiallyOpen = false,
+
+  // optionally controlled
   open: controlledOpen,
-  commands = [],
-  initialCommands = [],
   search: controlledSearch,
-  onChange,
+  onOpenChange, // optional
+  onChange,     // search onChange (optional)
+
+  // always-driven-by-parent (read-only here)
+  loading = false,
+  error = null,
+  content = null,
+  // always-driven-by-parent (read-only arrays)
+  commands = defaultCommands,
+  initialCommands = defaultInitialCommands,
+
   onRenderCommand,
   onRenderCommandContent,
   onSearchSelect,
   searchPlaceholderText = "Search",
-  error: controlledError,
-  loading: controlledLoading,
   footerContent,
   triggerKey = "k",
   animate = true,
   children,
 }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    commands,
-    initialCommands,
-    open: controlledOpen !== undefined ? controlledOpen : initiallyOpen,
-    loading: controlledLoading !== undefined ? controlledLoading : false,
-    error: controlledError !== undefined ? controlledError : "",
-    search: controlledSearch !== undefined ? controlledSearch : "",
-  });
-  // Use state for DOM elements so we have setter functions for context
+  const [focusedCommand, setFocusedCommand] = useState(0);
+
+  // DOM refs exposed via context
   const [searchInputRef, setSearchInputRef] = useState<HTMLInputElement | null>(null);
   const [resultsRef, setResultsRef] = useState<HTMLDivElement | null>(null);
 
-  // Controlled prop sync
-  useEffect(() => {
-    if (controlledOpen !== undefined) {
-      dispatch({ type: "SET_OPEN", payload: controlledOpen });
-    }
-  }, [controlledOpen]);
+  // ---- Controllable open/search ----
+  const [open, setOpen] = useControllable<boolean>({
+    value: controlledOpen,
+    defaultValue: initiallyOpen,
+    onChange: onOpenChange,
+  });
 
-  useEffect(() => {
-    if (controlledLoading !== undefined) {
-      dispatch({ type: "SET_LOADING", payload: controlledLoading });
-    }
-  }, [controlledLoading]);
+  const [search, setSearch, isSearchControlled] = useControllable<string>({
+    value: controlledSearch,
+    defaultValue: "",
+    onChange, // parent can mirror it if they want to control
+  });
 
-  useEffect(() => {
-    if (controlledError !== undefined) {
-      dispatch({ type: "SET_ERROR", payload: controlledError });
-    }
-  }, [controlledError]);
 
-  useEffect(() => {
-    if (controlledSearch !== undefined) {
-      dispatch({ type: "SET_SEARCH", payload: controlledSearch });
-    }
-  }, [controlledSearch]);
-
+  // ---- Results computed from parent-owned lists + resolved search ----
   const results = useResults({
-    commands: state.commands,
-    initialCommands: state.initialCommands,
-    search: state.search,
+    commands,
+    initialCommands,
+    search,
     onChange,
     onSearchSelect,
   });
 
-  // Handle search input changes
+  // Input change delegates through setSearch (respects controlled/uncontrolled)
   const onSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch({ type: "SET_SEARCH", payload: e.currentTarget.value });
-      if (onChange) {
-        onChange(e.currentTarget.value);
-      }
+      setSearch(e.currentTarget.value);
     },
-    [onChange]
+    [setSearch]
   );
 
+  // When opening: reset internal state, optionally clear search if *uncontrolled*, focus input
   useEffect(() => {
-    if (state.open) {
-      dispatch({ type: "RESET_STATE" });
-      if (searchInputRef) {
-        searchInputRef.focus();
+    if (open) {
+      setFocusedCommand(0);
+      // Only clear if we own it; don’t clobber a controlled search
+      if (!isSearchControlled) {
+        setSearch("");
       }
+      searchInputRef?.focus();
     }
-  }, [state.open, searchInputRef]);
+  }, [open, isSearchControlled, searchInputRef]);
 
+  // When search changes, move focus index and clear *internal* error/flags (if any)
   useEffect(() => {
-    dispatch({ type: "SET_FOCUSED_COMMAND", payload: 0 });
-    dispatch({ type: "SET_ERROR", payload: "" });
-  }, [state.search]);
+    setFocusedCommand(0);
+  }, [search]);
 
+  // If content becomes non-empty, clear search only when *uncontrolled*
   useEffect(() => {
-    if (state.content) {
-      dispatch({ type: "SET_SEARCH", payload: "" });
+    if (content && !isSearchControlled) {
+      setSearch("");
     }
-  }, [state.content]);
+  }, [content, isSearchControlled, , setSearch]);
 
+  // Keyboard toggle: go through setOpen (respects control)
   useEffect(() => {
     const toggleLaunchPad = (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === triggerKey) {
+      const meta = e.metaKey || e.ctrlKey;
+      if (meta && e.key === triggerKey) {
         e.preventDefault();
         e.stopPropagation();
-        dispatch({ type: "TOGGLE_OPEN" });
+        setOpen((prev) => !prev);
       }
     };
 
     document.addEventListener("keydown", toggleLaunchPad);
     return () => document.removeEventListener("keydown", toggleLaunchPad);
-  }, [triggerKey]);
-
-  const actions = useMemo(() => ({
-    setOpen: (open: boolean) => dispatch({ type: "SET_OPEN", payload: open }),
-    setLoading: (loading: boolean) => dispatch({ type: "SET_LOADING", payload: loading }),
-    setError: (error: string) => dispatch({ type: "SET_ERROR", payload: error }),
-    setSearch: (search: string) => dispatch({ type: "SET_SEARCH", payload: search }),
-    setFocusedCommand: (index: number) => dispatch({ type: "SET_FOCUSED_COMMAND", payload: index }),
-    setContent: (content: ReactNode) => dispatch({ type: "SET_CONTENT", payload: content }),
-    addCommands: (commands: Command[]) => dispatch({ type: "ADD_COMMANDS", payload: commands }),
-    setCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_COMMANDS', payload }),
-    addInitialCommands: (commands: Command[]) => dispatch({ type: "ADD_INITIAL_COMMANDS", payload: commands }),
-    setInitialCommands: (payload: ((commands: Command[]) => Command[]) | Command[]) => dispatch({ type: 'SET_INITIAL_COMMANDS', payload }),
-  }), [])
-
+  }, [triggerKey, setOpen]);
 
   const contextValue: LaunchPadInnerContext = useMemo(
     () => ({
-      ...state,
-      ...actions,
+      // internal
+      focusedCommand,
+      content,
+
+      // resolved / read-only fields
+      open,
+      search,
+      loading,
+      error,
+      commands,         // from parent
+      initialCommands,  // from parent
+
+      // actions / handlers
+      setOpen,
+      setSearch,
+      setFocusedCommand,
       onSearchChange,
       setSearchInputRef,
       setResultsRef,
       resultsRef,
+
+      // computed
       results,
+
+      // other props
       theme,
       triggerKey,
       searchPlaceholderText,
@@ -186,10 +174,18 @@ export const LaunchPadContextProvider: FC<PropsWithChildren<LaunchPadProps>> = (
       animate,
     }),
     [
-      state,
+      focusedCommand,
+      setFocusedCommand,
+      content,
+      open,
+      setOpen,
+      search,
+      setSearch,
+      loading,
+      error,
+      commands,
+      initialCommands,
       onSearchChange,
-      setSearchInputRef,
-      setResultsRef,
       resultsRef,
       results,
       theme,

@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import 'vitest-dom/extend-expect';
 
 import { LaunchPad } from './LaunchPad';
-import { Command, LaunchPadProps, onSelectCallback } from "./types";
+import { Command, LaunchPadProps } from "./types";
 import { useState } from "react";
 
 const interactions = {
@@ -159,39 +159,6 @@ describe('LaunchPad', () => {
     await interactions.enter();
     expect(onSearchSelect).toHaveBeenCalled();
 
-  });
-
-  it('onSelect public context allows you to set loading and open state', async () => {
-    const onSearchSelect: onSelectCallback = (context) => {
-      context.setLoading(true);
-      setTimeout(() => {
-        context.setLoading(false);
-      }, 100);
-
-    };
-    renderComponent({ onSearchSelect });
-    await interactions.toggleModal();
-    await interactions.type('X');
-    await interactions.enter();
-    expect(screen.getByRole('progressbar')).toBeInTheDocument();
-    waitFor(
-      () => expect(screen.getByRole('progressbar')).not.toBeInTheDocument()
-    )
-    waitFor(
-      () => expect(screen.getByText('X')).not.toBeInTheDocument()
-    )
-  });
-
-  it('onSelect public context allows you to set error state', async () => {
-
-    const onSearchSelect: onSelectCallback = (context) => {
-      context.setError('BOOM!');
-    };
-    renderComponent({ onSearchSelect });
-    await interactions.toggleModal();
-    await interactions.type('X');
-    await interactions.enter();
-    expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 
   it('onRenderCommand', async () => {

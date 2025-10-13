@@ -1,5 +1,3 @@
-"use client"
-
 import { useMemo } from "react";
 
 import { useLaunchPadContext } from "../context";

@@ -1,5 +1,3 @@
-"use client";
-
 import { useLaunchPadContext } from "../context";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { Icon } from "./Icon";
@@ -7,6 +5,7 @@ import { Icon } from "./Icon";
 export const SearchInput = () => {
   const { search, onSearchChange, setSearchInputRef, theme, searchPlaceholderText } =
     useLaunchPadContext();
+
   return (
     <div className={theme.search.root}>
       <div className="rlp-mt-[4px]">

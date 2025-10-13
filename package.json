@@ -2,12 +2,12 @@
   "private": true,
   "name": "react-launchpad",
   "scripts": {
-    "dev": "pnpm --parallel run dev -r",
+    "dev": "pnpm --parallel -r run dev",
     "dev:dash": "cd examples/dashboard && npm run dev",
-    "build": "pnpm --parallel run build -r",
-    "lint": "pnpm --parallel run lint -r",
-    "format": "pnpm --parallel run format -r",
-    "test": "pnpm --parallel run test -r"
+    "build": "pnpm --parallel -r run build",
+    "lint": "pnpm --parallel -r run lint",
+    "format": "pnpm --parallel -r run format",
+    "test": "pnpm --parallel -r run test"
   },
   "devDependencies": {
     "eslint": "^9.12.0",

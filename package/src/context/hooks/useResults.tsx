@@ -24,7 +24,6 @@ export const useResults = ({
   // When onChange is provided, items are filtered externally
   const baseCommands = onChange ? commands : filteredCommands;
 
-
   useEffect(() => {
     if (!search && initialCommands.length) {
       setInnerCommands(initialCommands);
@@ -46,7 +45,7 @@ export const useResults = ({
     } else {
       setInnerCommands(baseCommands);
     }
-  }, [initialCommands, search, onSearchSelect, baseCommands]);
+  }, [initialCommands, baseCommands, search, onSearchSelect]);
 
   return innerCommands;
 };
