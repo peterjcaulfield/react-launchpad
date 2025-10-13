@@ -32,28 +32,3 @@ jobs:
 
     - name: Run Tests
       run: cd package && npm test
-
-    - name: Publish Package
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: |
-        cd package
-
-        echo "Checking package versions..."
-        
-        PACKAGE_NAME=$(node -p "require('./package.json').name")
-        LATEST_VERSION=$(npm show $PACKAGE_NAME version || echo "0.0.0") # Default to 0.0.0 if package doesn't exist
-        CURRENT_VERSION=$(node -p "require('./package.json').version")
-
-        echo "Latest published version: ${LATEST_VERSION}"
-        echo "Current package version: ${CURRENT_VERSION}"
-
-        if [ "${LATEST_VERSION}" == "${CURRENT_VERSION}" ]; then
-          echo "Info: Version $CURRENT_VERSION is already published. Skipping publish."
-          exit 0
-        fi
-
-        echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-
-        echo "Publishing package..."
-        npm publish
